@@ -30,7 +30,9 @@ java -jar target/*.jar
 ```
 ##Sau do ban truy cap hppt://localhost:8080
 
-### LOGIN
+### LOGIN 
+FRONTEND: http://nguyenthanhsuong.com
+ADMIN: http://nguyenthanhsuong.com/admin/index.do
 ```
 Username: demo
 Password: &#l9tz!UGm69
