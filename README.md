@@ -28,7 +28,7 @@ git clone https://github.com/SuongNguyenThanh/luanvantotnghiep2022.git
 cd luanvantotnghiep2022
 java -jar target/*.jar
 ```
-##Sau do ban truy cap hppt://localhost:8080
+## Sau do ban truy cap hppt://localhost:8080
 
 ### LOGIN 
 # FRONTEND: http://nguyenthanhsuong.com
