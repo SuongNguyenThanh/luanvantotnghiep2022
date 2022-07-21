@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{/fragments/frontend/head-fragment :: header-fragment-fe}">
+    </th:block>
+    <title th:text="${content.title}"></title>
+</head>
+<body>
+    <div th:replace="~{/fragments/frontend/header-fragment :: language-fragment-fe}"></div>
+    <!-- LOGO -->
+    <div th:replace="~{/fragments/frontend/header-fragment :: logo-fragment-fe}"></div>
+    <!-- END LOGO-->
+    <!-- TOP NAVIGATION -->
+    <div th:replace="~{/fragments/frontend/header-fragment :: topNav-fragment-fe}"></div>
+    <!-- END TOP NAVIGATION -->
+    <!-- SEARCH FIELD AREA -->
+    <div th:replace="~{/fragments/frontend/header-fragment :: search-fragment-fe}"></div>
+    <!-- END SEARCH FIELD AREA -->
+    <!-- MAIN SECTION -->
+    <div class="container featured-area-default padding-30">
+        <div class="row">
+            <div class="col-md-8 padding-20">
+                <div class="row">
+                    <!-- BREADCRUMBS -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item" aria-current="page">
+                                <a th:href="@{/}">
+                                    <i class="fa fa-home"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/{baseUri}/{slug}_{id}.do(baseUri=#{fe.uri.category.single}, slug=${content.categories[0].slug},id=${content.categories[0].id})}" th:text="${content.categories[0].name}"></a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="${#strings.abbreviate(content.title,30)}"></li>
+                        </ol>
+                    </nav>
+                    <!-- END BREADCRUMBS -->
+                    <!-- ARTICLE  -->
+                    <div class="panel panel-default">
+                        <div class="article-heading margin-bottom-5">
+                                <i class="fa fa-pencil-square-o" ></i>
+                                <span th:text="${content.title}"></span>
+                        </div>
+                        <div class="article-info">
+                            <div class="art-date">
+                            <!--   <a href="#"></a> -->
+                                    <i class="fa fa-calendar-o"></i>
+                                    <span th:text="${#calendars.format(content.created, 'dd-MMM-yyyy')}"></span>
+
+                            </div>
+                            <div class="art-category">
+                                <a th:href="@{/{baseUri}/{slug}_{id}.do(baseUri=#{fe.uri.category.single},slug=${content.categories[0].slug},id=${content.categories[0].id})}">
+                                    <i class="fa fa-folder"></i>
+                                    <span th:text="${content.categories[0].name}"></span>
+                                </a>
+                            </div>
+                        </div>
+                        <div  class="article-content" th:utext="${content.content}">
+
+                        </div>
+                        <!--<div class="article-content">
+                            <div class="article-tags">
+                                <b>Tags:</b>
+                                <a href="#" class="btn btn-default btn-o btn-sm">gomac</a>
+                                <a href="#" class="btn btn-default btn-o btn-sm">password</a>
+                                <a href="#" class="btn btn-default btn-o btn-sm">settings</a>
+                                <a href="#" class="btn btn-default btn-o btn-sm">sign up</a>
+                                <a href="#" class="btn btn-default btn-o btn-sm">currency</a>
+                            </div>
+                        </div>-->
+                        <hr class="style-three">
+                        <div class="article-feedback">
+                            <h2>
+                                <small th:text="#{fe.content.simple.helpful}"></small>
+                            </h2>
+                            <a id="checkLike" class="btn btn-success btn-o btn-wide" onclick="onLike(); this.onclick=null;">
+                                <i class="fa fa-thumbs-o-up"></i> Yes</a>
+                            <a id="checkUnlike" class="btn btn-danger btn-o btn-wide" onclick="onUnlike(); this.onclick=null;">No
+                                <i class="fa fa-thumbs-o-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- END ARTICLE -->
+                    <!-- COMMENTS  -->
+                    <!-- END COMMENTS -->
+                </div>
+
+            </div>
+            <!-- SIDEBAR STUFF -->
+            <div th:replace="~{/fragments/frontend/sidebarStuff-fragment :: sidebar-fragment-fe}"></div>
+            <!-- END SIDEBAR STUFF -->
+        </div>
+    </div>
+    <!-- END MAIN SECTION -->
+
+    <!-- FOOTER -->
+     <!-- END FOOTER -->
+
+    <!-- COPYRIGHT INFO -->
+    <div th:replace="~{/fragments/frontend/footer-fragment :: copyInfo-fragment-fe}">
+    </div>
+    <!-- END COPYRIGHT INFO -->
+
+    <!-- LOADING MAIN JAVASCRIPT -->
+    <script th:src="@{/static/plugins/tinymce/js/tinymce/tinymce.min.js}" referrerpolicy="origin"></script>
+    <th:block th:insert="~{/fragments/frontend/loadJS-fragment :: loadJS-fragment-fe}">
+
+    </th:block>
+
+    <script th:inline="javascript">
+    var check = false;
+        tinymce.init({
+            selector: '#viewContent',
+            plugins: 'advlist link image lists'
+        });
+
+        $.ajax({
+            url: "/api/content/tracking-content.do?contentId="+[[${content.id}]]+"&metric=view"
+        }).done(function(data){
+
+        });
+        function onLike(){
+            if(!check){
+                check = true;
+                $.ajax({
+                    url: "/api/content/tracking-content.do?contentId="+[[${content.id}]]+"&metric=like"
+                }).done(function(data){
+                    $.toast({
+                      heading: [[#{fe.toast.content.like.done.title}]],
+                      text: [[#{fe.toast.content.like.done.text}]],
+                      showHideTransition: 'slide',
+                      icon: 'info',
+                      loaderBg: '#46c35f',
+                      position: 'top-right'
+                    });
+                });
+            }
+        }
+        function onUnlike(){
+            if(!check){
+                check = true;
+                $.ajax({
+                    url: "/api/content/tracking-content.do?contentId="+[[${content.id}]]+"&metric=unlike"
+                }).done(function(data){
+                    $.toast({
+                      heading: [[#{fe.toast.content.unlike.done.title}]],
+                      text: [[#{fe.toast.content.unlike.done.text}]],
+                      showHideTransition: 'slide',
+                      icon: 'info',
+                      loaderBg: '#46c35f',
+                      position: 'top-right'
+                    });
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<head th:replace="~{/fragments/admin/head-fragment :: header-fragment-admin}">
+</head>
+<body>
+    <div class="wrapper">
+        <div th:replace="~{/fragments/admin/header-fragment :: header-top-admin}"></div>
+        <div class="page-wrap">
+            <div th:replace="~{/fragments/admin/nav-fragment :: nav-fragment-admin}"></div>
+
+            <div class="main-content">
+                <div class="container-fluid">
+                    <div class="page-header">
+                        <div class="row align-items-end">
+                            <div class="col-lg-8">
+                                <div class="page-header">
+                                    <div class="d-inline">
+                                        <h5 th:text="#{cms.user.profile.title}">Profile</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a th:href="@{/admin/index.do}"><i class="ik ik-home"></i></a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page" th:text="#{cms.user.profile.title}">Profile</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card mb-4">
+                                <div class="card-body text-center">
+                                    <div class="outer">
+                                        <img th:src="${currentUser.avatarUrl}"
+                                         class="rounded-circle img-fluid" style="width: 150px;">
+                                        <span class="inner" id="uploadAvatar">
+                                            <i class="fas fa-upload"></i>
+                                        </span>
+                                    </div>
+                                    <h5 class="my-3" th:text="${currentUser.fullName}"></h5>
+                                    <p class="text-muted mb-1" th:text="${currentUser.career}">Full Stack Developer</p>
+                                    <p class="text-muted mb-4" th:text="${currentUser.address}">Bay Area, San Francisco, CA</p>
+                                    <div class="d-flex justify-content-center mb-2">
+                                        <a th:href="@{/admin/user/update.do(id=${currentUser.id})}" class="btn btn-primary" th:text="#{cms.user.view.btn.edit}"></a>
+                                        <a id="resetPassword" href="javascript:void(0);" th:attr="data-id=${currentUser.id}"  class="btn btn-danger ml-4">Reset Password</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Full Name</p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <p class="text-muted mb-0" th:text="${currentUser.fullName}"></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0" >Username</p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <p class="text-muted mb-0" th:text="${currentUser.username}"></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0" >Email</p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <p class="text-muted mb-0" th:text="${currentUser.email}"></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0" th:text="#{cms.user.profile.phone}"></p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <p class="text-muted mb-0" th:text="${currentUser.phone}"></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0" th:text="#{cms.user.profile.address}"></p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <p class="text-muted mb-0" th:text="${currentUser.address}"></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0" th:text="#{cms.user.profile.career}"></p>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <p class="text-muted mb-0" th:text="${currentUser.career}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer th:replace="~{/fragments/admin/footer-fragment :: footer-fragment-admin}"></footer>
+        </div>
+    </div>
+
+    <!-- Modal Upload Avatar -->
+    <div class="modal fade" id="uploadAvatarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" th:text="#{be.user.profile.model.avatar.title}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="dropzone needsclick dz-clickable"
+                          id="file-upload" action="/admin/api/cloud/media/upload.do">
+                        <div class="col-md-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="fallback"> <!-- this is the fallback if JS isn't working -->
+                                        <input name="file" type="file" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{/fragments/admin/model-app-fragment :: modalApp-fragment-admin}"></div>
+    <div th:replace="~{/fragments/admin/js-fragment :: js-fragment-admin}"></div>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+Dropzone.autoDiscover = false;
+$( document ).ready(function() {
+    $("#uploadAvatar").click(function(){
+        $('#uploadAvatarModal').modal('show');
+    });
+    $("#file-upload").dropzone({
+        url: "/admin/api/cloud/media/upload.do",
+        addRemoveLinks: false,
+        acceptedFiles: "image/*",
+        maxFiles:1,
+        //previewTemplate : document.querySelector('#template-preview').innerHTML,
+        //previewsContainer: "#previewsMedia",
+        init: function() {
+              this.on("maxfilesexceeded", function(file) {
+                    this.removeAllFiles();
+                    this.addFile(file);
+              });
+        },
+        success: function (file, response) {
+            var location = response.location;
+            file.previewElement.classList.add("dz-success");
+            $(".outer").find("img").attr("src", location);
+            $('#uploadAvatarModal').modal('hide');
+            $.ajax({
+                url: "/admin/api/user/upload-avatar.do?id="+[[${currentUser.id}]]+"&avatarUrl="+encodeURIComponent(location)
+            }).done(function(data){
+                $.toast({
+                  heading: [[#{be.toast.profile.uploadavatar.done.title}]],
+                  text: [[#{be.toast.profile.uploadavatar.done.text}]],
+                  showHideTransition: 'slide',
+                  icon: 'info',
+                  loaderBg: '#46c35f',
+                  position: 'top-right'
+                });
+            });
+        },
+        error: function (file, response) {
+            file.previewElement.classList.add("dz-error");
+            $.toast({
+              heading: [[#{be.toast.profile.uploadavatar.fail.title}]],
+              text: [[#{be.toast.profile.uploadavatar.fail.text}]],
+              showHideTransition: 'slide',
+              icon: 'warning',
+              loaderBg: '#57c7d4',
+              position: 'top-right'
+            });
+        }
+    });
+    $('#resetPassword').click(function() {
+       var id = $(this).attr('data-id');
+       $.ajax({
+            url: '/admin/api/user/reset-password.do?id='+id
+       }).done(function (data) {
+         if(data.status==200){
+            $.toast({
+              heading: [[#{be.toast.profile.resetpassword.done.title}]],
+              text: [[#{be.toast.profile.resetpassword.done.text}]],
+              showHideTransition: 'slide',
+              icon: 'info',
+              loaderBg: '#46c35f',
+              position: 'top-right'
+            });
+         }else{
+            $.toast({
+              heading: [[#{be.toast.profile.resetpassword.fail.title}]],
+              text: [[#{be.toast.profile.resetpassword.fail.text}]],
+              showHideTransition: 'slide',
+              icon: 'warning',
+              loaderBg: '#57c7d4',
+              position: 'top-right'
+            });
+         }
+       }).fail(function() {
+        $.toast({
+          heading: [[#{be.toast.profile.resetpassword.fail.title}]],
+          text: [[#{be.toast.profile.resetpassword.fail.text}]],
+          showHideTransition: 'slide',
+          icon: 'warning',
+          loaderBg: '#57c7d4',
+          position: 'top-right'
+        });
+      });
+    });
+});
+</script>
+</body>
+</html>

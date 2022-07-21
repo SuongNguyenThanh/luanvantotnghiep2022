@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/fragments/admin/head-fragment :: header-fragment-admin}">
+</head>
+<body>
+<div class="wrapper">
+    <div th:replace="~{/fragments/admin/header-fragment :: header-top-admin}"></div>
+    <div class="page-wrap">
+        <div th:replace="~{/fragments/admin/nav-fragment :: nav-fragment-admin}"></div>
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="ik ik-edit bg-blue"></i>
+                                <div class="d-inline">
+                                    <h5 th:text="#{cms.content.view.title}"></h5>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a th:href="@{/admin/index.do}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a th:href="@{/admin/content/index.do}">Content</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">View Content</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 th:text="#{cms.content.view.title}"></h3>
+                            </div>
+                            <div class="card-body">
+                                <!-- Text operations:"'' + ${}" or |... ${}|-->
+                                <div class="form-group">
+                                    <label th:text="|#{cms.content.view.form.label.id}: |"> </label>
+                                    <span th:text="${contentView.id}"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label th:text="|#{cms.content.view.form.label.title}: |"> </label>
+                                    <span th:text="${contentView.title}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="|#{cms.content.view.form.label.isHome}: |"> </label>
+                                    <span th:text="${contentView.isHome}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="|#{cms.content.view.form.label.created}: |"> </label>
+                                    <span th:text="${#calendars.format(contentView.created, 'dd-MMM-yyyy')}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="|#{cms.content.view.form.label.modified}: |"> </label>
+                                    <span th:text="${#calendars.format(contentView.modified, 'dd-MMM-yyyy')}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="|#{cms.content.view.form.label.createdBy}: |"></label>
+                                    <span th:if="${contentView.createdBy != null}" th:text="${contentView.createdBy.firstName}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="#{cms.content.view.form.label.modifiedBy}"></label>
+                                    <span th:if="${contentView.modifiedBy != null}" th:text="${contentView.modifiedBy.firstName}"></span>
+                                </div>
+
+                                <a th:href="@{index.do}" class="btn btn-light" role="button" aria-pressed="true">Cancel</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="~{/fragments/admin/footer-fragment :: footer-fragment-admin}"></footer>
+    </div>
+</div>
+<div th:replace="~{/fragments/admin/model-app-fragment :: modalApp-fragment-admin}"></div>
+<div th:replace="~{/fragments/admin/js-fragment :: js-fragment-admin}"></div>
+
+</body>
+</html>

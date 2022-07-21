@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<!-- FOOTER -->
+<div class="container-fluid footer marg30" th:fragment="footer-fragment-fe">
+    <div class="container">
+        <div class="row">
+        <!-- FOOTER COLUMN ONE -->
+        <div class="col-xs-12 col-sm-4 col-md-4 margin-top-20">
+            <div class="panel-transparent">
+                <div class="footer-heading">How it works</div>
+                <div class="footer-body">
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+                        ut laoreet dolore magna aliquam erat volutpat.</p>
+                    <p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip
+                        ex ea commodo consequat. </p>
+                </div>
+            </div>
+        </div>
+        <!-- END FOOTER COLUMN ONE -->
+        <!-- FOOTER COLUMN TWO -->
+        <div class="col-xs-12 col-sm-4 col-md-4 margin-top-20">
+            <div class="panel-transparent">
+                <div class="footer-heading">Categories</div>
+                <div class="footer-body">
+                    <ul>
+                        <li>
+                            <a href="single-category.html">General</a>
+                        </li>
+                        <li>
+                            <a href="single-category.html">Getting Started</a>
+                        </li>
+                        <li>
+                            <a href="single-category.html">Account Support</a>
+                        </li>
+                        <li>
+                            <a href="single-category.html">Guides</a>
+                        </li>
+                        <li>
+                            <a href="single-category.html">Payment &amp; Billing</a>
+                        </li>
+                        <li>
+                            <a href="single-category.html">Misc</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- END FOOTER COLUMN TWO -->
+        <!-- FOOTER COLUMN THREE -->
+        <div class="col-xs-12 col-sm-4 col-md-4 margin-top-20">
+            <div class="panel-transparent">
+                <div class="footer-heading">Popular Articles</div>
+                <div class="footer-body">
+                    <ul>
+                        <li>
+                            <a href="single-article.html">How to change account password</a>
+                        </li>
+                        <li>
+                            <a href="single-article.html">How to edit order details</a>
+                        </li>
+                        <li>
+                            <a href="single-article.html">Add new user</a>
+                        </li>
+                        <li>
+                            <a href="single-article.html">Change customer details</a>
+                        </li>
+                        <li>
+                            <a href="single-article.html">Lookup existing customer in order form</a>
+                        </li>
+                        <li>
+                            <a href="single-article.html">How do I reset my password</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- END FOOTER COLUMN THREE -->
+    </div>
+</div>
+<!-- END FOOTER -->
+
+<!-- COPYRIGHT INFO -->
+<footer class="footer" th:fragment="copyInfo-fragment-fe">
+    <div class="container">
+        <div class="row">
+            <div class="w-100 clearfix">
+                <span class="text-center text-sm-left d-md-inline-block" th:text="#{cms.footer.label.copyright}"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- END COPYRIGHT INFO -->
+</html>

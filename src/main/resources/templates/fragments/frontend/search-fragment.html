@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div class="search-row" th:fragment="inputSearch-fragment-fe">
+    <input name="search" type="text" class="search"
+           placeholder="What do you need help with?" th:value="${search == null ? '': search}">
+    <a id="searchBtn" class="buttonsearch btn btn-info btn-lg"
+       th:text="#{cms.search}"></a>
+<script th:inline="javascript">
+    $('#searchBtn').click(function(e) {
+        e.preventDefault();
+        var search = $('input[name*="search"]').val();
+        window.location.href='/search-content.do?search='+search;
+    });
+</script>
+</div>
+
+</html>

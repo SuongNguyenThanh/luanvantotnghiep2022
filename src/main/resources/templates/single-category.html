@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{/fragments/frontend/head-fragment :: header-fragment-fe}">
+    </th:block>
+    <title th:text="${category.name}"></title>
+</head>
+
+<body>
+    <div th:replace="~{/fragments/frontend/header-fragment :: language-fragment-fe}"></div>
+    <!-- LOGO -->
+    <div th:replace="~{/fragments/frontend/header-fragment :: logo-fragment-fe}"></div>
+    <!-- END LOGO-->
+    <!-- TOP NAVIGATION -->
+    <div th:replace="~{/fragments/frontend/header-fragment :: topNav-fragment-fe}"></div>
+    <!-- END TOP NAVIGATION -->
+    <!-- SEARCH FIELD AREA -->
+    <div th:replace="~{/fragments/frontend/header-fragment :: search-fragment-fe}"></div>
+    <!-- END SEARCH FIELD AREA -->
+    <!-- MAIN SECTION -->
+    <div class="container featured-area-default padding-30">
+        <div class="row">
+            <!-- ARTICLE OVERVIEW SECTION -->
+            <div class="col-md-8 padding-20">
+                <div class="row">
+                    <!-- BREADCRUMBS -->
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/}">
+                                    <i class="fa fa-home"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="${category.name}"></li>
+                        </ol>
+                    </nav>
+
+                    <!-- END BREADCRUMBS -->
+                    <!-- ARTICLES -->
+                    <div class="fb-heading">
+                        <i class="fa fa-folder"></i>
+                        <span  th:text="|Category: ${category.name}|"></span>
+
+                        <span class="cat-count" th:text="|(${category.contents.size()})|"></span>
+                    </div>
+                    <hr class="style-three">
+                    <div id="dynatables">
+
+                    </div>
+                </div>
+            </div>
+            <!-- END ARTICLES OVERVIEW SECTION-->
+            <!-- SIDEBAR STUFF -->
+            <div th:replace="~{/fragments/frontend/sidebarStuff-fragment :: sidebar-fragment-fe}"></div>
+            <!-- END SIDEBAR STUFF -->
+        </div>
+    </div>
+    <!-- END MAIN SECTION -->
+
+    <!-- FOOTER -->
+    <!-- END FOOTER -->
+
+    <!-- COPYRIGHT INFO -->
+    <div th:replace="~{/fragments/frontend/footer-fragment :: copyInfo-fragment-fe}">
+    </div>
+    <!-- END COPYRIGHT INFO -->
+
+
+    <!-- LOADING MAIN JAVASCRIPT -->
+    <th:block th:insert="~{/fragments/frontend/loadJS-fragment :: loadJS-fragment-fe}">
+
+    </th:block>
+
+
+    <script th:inline="javascript">
+    var index = 1;
+    $('#dynatables').dynatable({
+        table: {
+            bodyRowSelector: '.rowContent'
+          },
+        dataset: {
+            ajax: true,
+            ajaxUrl: '/api/single-category/list.do?categoryId='+[[${category.id}]],
+            ajaxOnLoad: true,
+            ajaxMethod: 'POST',
+            records: []
+        },
+        features: {
+            search: false,
+            recordCount: false,
+            perPageSelect: false
+        },
+        writers: {
+            _rowWriter: defaultRowWriter,
+            _cellWriter: defaultCellWriter
+        },
+       inputs: {
+            paginationClass: 'pagination justify-content-center',
+            paginationLinkClass: 'dynatable-page-link',
+            paginationPrevClass: 'dynatable-page-prev',
+            paginationNextClass: 'dynatable-page-next',
+            paginationActiveClass: 'dynatable-active-page',
+            paginationDisabledClass: 'dynatable-disabled-page',
+            paginationPrev: '<span aria-hidden="true"><i class="fa fa-arrow-circle-left"></i></span>',
+            paginationNext: '<span aria-hidden="true"><i class="fa fa-arrow-circle-right"></i></span>',
+            pageText:'',
+      }
+
+});
+function defaultCellWriter(column, record) {
+    return '';
+}
+function defaultRowWriter(rowIndex, record, columns, cellWriter) {
+    var html = '<div class="border border-secondary rounded m-4 rowContent">'+
+                       '<div class="article-heading-abb">'+
+                       '<a href="/'+[[#{fe.uri.content.single}]]+'/'+record.slug+'_'+record.id+'.do">'+
+                       '<i class="fa fa-pencil-square-o"></i>' + record.title +'</a>'+
+                       '</div>'+
+                       '<div class="article-info">'+
+                        '<div class="art-date">'+
+                       '<span>'+
+                       '<i class="fa fa-calendar-o"></i> '+ record.created +' </span>'+
+                       '</div>'+
+                       '<div class="art-category">'+
+                       '<a href="/'+[[#{fe.uri.category.single}]]+'/'+record.categorySlug+'_'+record.categoryId+'.do">'+
+                       '<i class="fa fa-folder"></i> '+ record.categoryName +' </a>'+
+                       '</div>'+
+                       '</div>'+
+                       '<div class="article-content">'+
+                       '<p class="block-with-text">'+ record.description +'</p>'+
+                       '</div>'+
+                       '<div class="article-read-more">'+
+                      '<a href="/'+[[#{fe.uri.content.single}]]+'/'+record.slug+'_'+record.id+'.do" class="btn btn-outline-secondary btn-wide">'+[[#{fe.header.search.content.readmore}]]+'</a>'+
+                      '</div>'+
+                '</div>';
+                return html;
+}
+</script>
+</body>
+
+</html>

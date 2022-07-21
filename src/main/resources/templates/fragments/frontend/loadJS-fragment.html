@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="loadJS-fragment-fe">
+    <script th:src="@{/static/js/vendor/modernizr-2.8.3.min.js?v=1.0.0}"></script>
+    <script th:src="@{/static/plugins/popper/popper.min.js?v=1.0.0}"></script>
+    <script th:src="@{/static/plugins/bootstrap-5.1.3-dist/js/bootstrap.min.js?v=1.0.0}" crossorigin="anonymous"></script>
+    <script src='https://cdn.rawgit.com/VPenkov/okayNav/master/app/js/jquery.okayNav.js'></script>
+    <script th:src="@{/static/plugins/jquery-dynatable/jquery.dynatable.js}"></script>
+    <script th:src="@{/static/plugins/jquery-toast-plugin/dist/jquery.toast.min.js}"></script>
+    <script th:src="@{/static/frontend/js/main.js}"></script>
+
+
+</th:block>
+</html>

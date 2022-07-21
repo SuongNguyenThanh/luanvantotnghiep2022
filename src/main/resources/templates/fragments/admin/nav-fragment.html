@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div class="app-sidebar colored" th:fragment="nav-fragment-admin">
+        <div class="sidebar-header">
+            <a class="header-brand" href="/">
+                <div class="logo-img">
+                    <img th:src="@{/static/img/brand-white.svg}" class="header-brand-img" alt="lavalite">
+                </div>
+                <span class="text" th:text="#{be.company.name}">NTSUONG</span>
+            </a>
+            <button type="button" class="nav-toggle"><i data-toggle="expanded" class="ik ik-toggle-right toggle-icon"></i></button>
+            <button id="sidebarClose" class="nav-close"><i class="ik ik-x"></i></button>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="nav-container">
+                <nav id="main-menu-navigation" class="navigation-main">
+                    <div class="nav-lavel" th:text="#{be.navigation.admin.manager.name}">Admin Manager</div>
+                    <th:block th:each="itemMenuCommon : ${menuAdminCommonList}">
+                    <div class="nav-item" th:classappend="${itemMenuCommon.focus} ? 'active' : '' ">
+                        <a th:href="${itemMenuCommon.url}">
+                            <i th:class="${itemMenuCommon.icon}"></i>
+                            <span th:text="${itemMenuCommon.name}"></span>
+                        </a>
+                    </div>
+                    </th:block>
+                    <!-- Example -->
+
+                    <div class="nav-lavel" th:text="#{be.navigation.menu.support.name}">Support</div>
+                    <div class="nav-item">
+                        <a href="javascript:void(0)"><i class="ik ik-monitor"></i>
+                            <span th:text="#{be.navigation.menu.document.name}">Documentation</span></a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="javascript:void(0)"><i class="ik ik-help-circle"></i>
+                            <span th:text="#{be.navigation.menu.submit.issue.name}">Submit Issue</span></a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</html>

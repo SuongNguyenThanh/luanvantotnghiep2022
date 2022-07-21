@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/fragments/frontend/head-fragment :: header-fragment-fe}">
+</head>
+
+<body>
+    <div th:replace="~{/fragments/frontend/header-fragment :: language-fragment-fe}"></div>
+    <!-- LOGO -->
+    <div th:replace="~{/fragments/frontend/header-fragment :: logo-fragment-fe}"></div>
+    <!-- END LOGO-->
+    <!-- TOP NAVIGATION -->
+    <div th:replace="~{/fragments/frontend/header-fragment :: topNav-fragment-fe}"></div>
+    <!-- END TOP NAVIGATION -->
+    <!-- SEARCH FIELD AREA -->
+    <div th:replace="~{/fragments/frontend/header-fragment :: search-fragment-fe}"></div>
+    <!-- END SEARCH FIELD AREA -->
+    <!-- MAIN SECTION -->
+    <div class="container featured-area-default padding-30">
+        <div class="row">
+            <div class="col-md-8 padding-20">
+                <div class="row">
+                    <!-- ARTICLES -->
+                    <div class="fb-heading">
+                        <i class="fa fa-search"></i>
+                        <span th:text="#{fe.header.heading.title}"></span>
+                        <span th:text="${search}"></span>
+                        <h6 class="padding-left-35">
+                            <small th:text="#{fe.header.search.result(${countSearch})}"></small>
+                        </h6>
+                    </div>
+                    <hr class="style-three">
+                    <div id="dynatables">
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- SIDEBAR STUFF -->
+            <div th:replace="~{/fragments/frontend/sidebarStuff-fragment :: sidebar-fragment-fe}"></div>
+            <!-- END SIDEBAR STUFF -->
+        </div>
+    </div>
+    <!-- END MAIN SECTION-->
+
+    <!-- COPYRIGHT INFO -->
+    <div th:replace="~{/fragments/frontend/footer-fragment :: copyInfo-fragment-fe}">
+    </div>
+    <!-- END COPYRIGHT INFO -->
+
+    <!-- LOADING MAIN JAVASCRIPT -->
+    <th:block th:insert="~{/fragments/frontend/loadJS-fragment :: loadJS-fragment-fe}">
+
+    </th:block>
+
+<script th:inline="javascript">
+    var index = 1;
+    $('#dynatables').dynatable({
+        table: {
+            bodyRowSelector: '.rowSearch'
+          },
+        dataset: {
+            ajax: true,
+            ajaxUrl: '/api/content/search.do?queries'+encodeURIComponent('[search]')+'='+[[${search}]],
+            ajaxOnLoad: true,
+            records: []
+        },
+        features: {
+            search: false,
+            recordCount: false,
+            perPageSelect: false
+        },
+        writers: {
+            _rowWriter: defaultRowWriter
+        },
+       inputs: {
+            paginationClass: 'pagination justify-content-center',
+            paginationLinkClass: 'dynatable-page-link',
+            paginationPrevClass: 'dynatable-page-prev',
+            paginationNextClass: 'dynatable-page-next',
+            paginationActiveClass: 'dynatable-active-page',
+            paginationDisabledClass: 'dynatable-disabled-page',
+            paginationPrev: '<span aria-hidden="true"><i class="fa fa-arrow-circle-left"></i></span>',
+            paginationNext: '<span aria-hidden="true"><i class="fa fa-arrow-circle-right"></i></span>',
+            pageText:'',
+            queries: $('input[name*="search"]')
+      }
+
+});
+function defaultRowWriter(rowIndex, record, columns, cellWriter) {
+
+    var html = '<div class="card card-default rowSearch">';
+                       html = html + '<div class="article-heading-abb">';
+                       html = html +    '<a href="/'+[[#{fe.uri.content.single}]]+'/'+record.slug+'_'+record.id+'.do">';
+                       html = html +        '<i class="fa fa-pencil-square-o"></i>' + record.title +'</a>';
+                       html = html + '</div>';
+                       html = html + '<div class="article-info">';
+                       html = html +    '<div class="art-date">';
+                       html = html +        '<span>';
+                       html = html +        '<i class="fa fa-calendar-o"></i> '+ record.created +' </span>';
+                       html = html +    '</div>';
+                       html = html +    '<div class="art-category">';
+                       html = html +        '<a href="/'+[[#{fe.uri.category.single}]]+'/'+record.categorySlug+'_'+record.categoryId+'.do">';
+                       html = html +        '<i class="fa fa-folder"></i> '+ record.categoryName +' </a>';
+                       html = html +    '</div>';
+                       html = html + '</div>';
+                       html = html + '<div class="article-content">';
+                       html = html +   '<p class="block-with-text">';
+                       html = html +    record.description ;
+                       html = html +    '</p>';
+                       html = html +' </div>';
+                       html = html +'<div class="article-read-more">';
+                       html = html +   '<a href="/'+[[#{fe.uri.content.single}]]+'/'+record.slug+'_'+record.id+'.do" class="btn btn-outline-secondary btn-wide">'+[[#{fe.header.search.content.readmore}]]+'</a>';
+                       html = html +'</div>';
+    return html = html + "</div>";
+}
+</script>
+</body>
+</html>

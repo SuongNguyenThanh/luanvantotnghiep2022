@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/fragments/admin/head-fragment :: header-fragment-admin}">
+</head>
+<body>
+<div class="wrapper">
+    <div th:replace="~{/fragments/admin/header-fragment :: header-top-admin}"></div>
+    <div class="page-wrap">
+        <div th:replace="~{/fragments/admin/nav-fragment :: nav-fragment-admin}"></div>
+        <footer th:replace="~{/fragments/admin/footer-fragment :: footer-fragment-admin}"></footer>
+    </div>
+</div>
+<div th:replace="~{/fragments/admin/model-app-fragment :: modalApp-fragment-admin}"></div>
+<div th:replace="~{/fragments/admin/js-fragment :: js-fragment-admin}"></div>
+</body>
+</html>
